@@ -1,1 +1,1 @@
-{"generated_at_ms": 1792764834148, "generated_at": "2026-10-23T22:13:54.148356+08:00", "shared_tasks": 458, "counts": {"P0": 74, "P1": 70, "P2": 29, "P3": 9, "Done": 276}, "dropped": 7, "custom_tasks": 77, "state_at": 1792764745289}
+{"generated_at_ms": 1792765110959, "generated_at": "2026-10-23T22:18:30.959411+08:00", "has_state": true, "state_at": 1792765110307, "custom_tasks": 77, "pins": 2, "overrides": 286}
