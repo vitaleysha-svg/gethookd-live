@@ -1814,8 +1814,9 @@ let dayLog={}; try{dayLog=JSON.parse(localStorage.getItem(LKEY)||'{}')||{}}catch
  Object.keys(dayLog).forEach(d=>{const b=dayLog[d].length; dayLog[d]=dayLog[d].filter(e=>!(RM.indexOf(e.id)>=0||BAD.test(e.title||'')||BAD.test(e.extra||''))); if(dayLog[d].length!==b)ch=true; if(!dayLog[d].length)delete dayLog[d];});
  if(ch){try{localStorage.setItem(KEY,JSON.stringify(ovr));localStorage.setItem(OKEY,JSON.stringify(order));localStorage.setItem(PKEY,JSON.stringify(pins));localStorage.setItem(LKEY,JSON.stringify(dayLog));}catch(e){}}
 })();
+const HELPER_KEY=''; /* shared with scripts/gethookd_board_state_server.py; the public copy of this file has it blanked */
 /* 23 Oct 2026: post the saved state to the local helper on every load too, so the live page for Alex mirrors this board after a plain reload, no tick needed. Skipped when this browser holds no board state, so an empty profile can never blank the published state. */
-(function(){try{if(!Object.keys(ovr).length&&!custom.length&&!pins.length)return;fetch('http://127.0.0.1:8765/state',{method:'POST',mode:'no-cors',body:JSON.stringify({ovr,order,custom,pins,dayLog:(typeof dayLog==='object'?dayLog:{}),at:Date.now()})}).catch(()=>{});}catch(e){}})();
+(function(){try{if(!Object.keys(ovr).length&&!custom.length&&!pins.length)return;fetch('http://127.0.0.1:8765/state',{method:'POST',mode:'no-cors',body:JSON.stringify({key:HELPER_KEY,ovr,order,custom,pins,dayLog:(typeof dayLog==='object'?dayLog:{}),at:Date.now()})}).catch(()=>{});}catch(e){}})();
 function saveDay(){try{localStorage.setItem(DKEY,JSON.stringify(dailyState));localStorage.setItem(LKEY,JSON.stringify(dayLog));}catch(e){}const s=document.getElementById('saved');s.classList.add('show');setTimeout(()=>s.classList.remove('show'),800);}
 function plainTitle(id){const t=(byId[id]&&fld(id,'title'))||'';const d=document.createElement('div');d.innerHTML=t;return d.textContent||d.innerText||String(t);}
 function logEvt(type,id,extra){const e={tm:Date.now(),type:type,id:id,title:plainTitle(id),extra:extra||''};(dayLog[selDay]=dayLog[selDay]||[]).push(e);if(dayLog[selDay].length>300)dayLog[selDay]=dayLog[selDay].slice(-300);saveDay();renderDay();}
@@ -1846,7 +1847,7 @@ function stat(id){return (ovr[id]&&ovr[id].status)||byId[id].status;}
 function fld(id,f){return (ovr[id]&&ovr[id][f]!==undefined)?ovr[id][f]:byId[id][f];}
 function escAttr(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escHtml(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function save(){try{fetch('http://127.0.0.1:8765/state',{method:'POST',mode:'no-cors',body:JSON.stringify({ovr,order,custom,pins,dayLog:(typeof dayLog==='object'?dayLog:{}),at:Date.now()})}).catch(()=>{});}catch(e){}localStorage.setItem(KEY,JSON.stringify(ovr));localStorage.setItem(OKEY,JSON.stringify(order));localStorage.setItem(CKEY,JSON.stringify(custom));localStorage.setItem(COLKEY,JSON.stringify([...collapsed]));localStorage.setItem(PKEY,JSON.stringify(pins));const s=document.getElementById('saved');s.classList.add('show');setTimeout(()=>s.classList.remove('show'),800);}
+function save(){try{fetch('http://127.0.0.1:8765/state',{method:'POST',mode:'no-cors',body:JSON.stringify({key:HELPER_KEY,ovr,order,custom,pins,dayLog:(typeof dayLog==='object'?dayLog:{}),at:Date.now()})}).catch(()=>{});}catch(e){}localStorage.setItem(KEY,JSON.stringify(ovr));localStorage.setItem(OKEY,JSON.stringify(order));localStorage.setItem(CKEY,JSON.stringify(custom));localStorage.setItem(COLKEY,JSON.stringify([...collapsed]));localStorage.setItem(PKEY,JSON.stringify(pins));const s=document.getElementById('saved');s.classList.add('show');setTimeout(()=>s.classList.remove('show'),800);}
 function setField(id,f,v){ovr[id]=ovr[id]||{};ovr[id][f]=v;if(f==='pri'&&v==='Done')pins=pins.filter(x=>x!==id);if(f==='status')logEvt('status',id,v);if(f==='pri')logEvt('priority',id,v);save();render();}
 function visible(id){return (whoFilter==='all'||byId[id].who===whoFilter);}
 function saveEdit(id,body){const gv=q=>body.querySelector(q).value;const nt=gv('.e-title').trim();if(!nt){alert('Title is required.');return;}ovr[id]=ovr[id]||{};ovr[id].title=nt;ovr[id].who=gv('.e-who');ovr[id].due=gv('.e-due').trim();ovr[id].detail=gv('.e-detail');ovr[id].note=gv('.e-note');ovr[id].pri=gv('.e-pri');ovr[id].status=gv('.e-status');editing=null;logEvt('edited',id);save();render();}
@@ -1998,7 +1999,7 @@ renderDay();
 .chk,.dbox,.grab,.tctl select,.pinbtn,#daysel{pointer-events:none} #addtask,#reset,.newform,.t-edit,#saved{display:none!important} .ditem{cursor:default}
 </style>
 <script>
-const GEN=1792765110959;
+const GEN=1792765556637;
 function livePaint(ms){const el=document.getElementById('live'),tx=document.getElementById('livetxt');if(!el)return;const age=(Date.now()-ms)/60000;el.className='';
  if(age<120){el.className='on';tx.textContent='Live, updated '+(age<1?'just now':Math.round(age)+' min ago');}
  else if(age<1440){el.className='stale';tx.textContent='Last update '+Math.round(age/60)+' h ago';}
