@@ -1999,7 +1999,7 @@ renderDay();
 .chk,.dbox,.grab,.tctl select,.pinbtn,#daysel{pointer-events:none} #addtask,#reset,.newform,.t-edit,#saved{display:none!important} .ditem{cursor:default}
 </style>
 <script>
-const GEN=1792765556637;
+const GEN=1792770167851;
 function livePaint(ms){const el=document.getElementById('live'),tx=document.getElementById('livetxt');if(!el)return;const age=(Date.now()-ms)/60000;el.className='';
  if(age<120){el.className='on';tx.textContent='Live, updated '+(age<1?'just now':Math.round(age)+' min ago');}
  else if(age<1440){el.className='stale';tx.textContent='Last update '+Math.round(age/60)+' h ago';}
