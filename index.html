@@ -216,7 +216,7 @@
 </script>
 <script>
 const TASKS = [
-{id:"churntypes1031", share:"alex", added:"2026-10-31", who:"SELF", rec:"P0", status:"todo", due:"", title:"Weekly churn by type on the Stripe dashboard: involuntary, trial cancels, reactivation, contraction, new, expansion, vs the week before", detail:"Alex 30 Oct. Folds into the retention dashboard (Stripe = source of truth). Share with Alex when the definitions are locked."},
+{id:"churntypes1031", share:"alex", added:"2026-10-31", who:"SELF", rec:"P0", status:"todo", due:"", title:"Weekly churn by type on the Stripe dashboard: involuntary, trial cancels, reactivation, contraction, new, expansion, vs the week before", detail:"Alex 30 Oct (Stripe MRR movement view: new, reactivation, expansion, contraction, churn; plus involuntary and trial cancels, which he called a big one). Trial cancels split: within 24 hours of trial start, day 2 to 7, and never paid (Mladen's 24h cancel rate, tracked since June). Exclude abuse blocks and $1 card-check fails. Folds into the retention dashboard (Stripe = source of truth). Share with Alex when the definitions are locked."},
 {id:"onboardroi1031", share:"alex", added:"2026-10-31", who:"SELF", rec:"P0", status:"todo", due:"", title:"Live onboarding sessions ROI: attendees vs non-attendees (churn, LTV, months stayed, upgrades)", detail:"Alex 30 Oct: decides whether sessions are worth it vs a one-click workflow or a 5-minute video. Join attendee list to Stripe."},
 {id:"monetplan1031", share:"alex", added:"2026-10-31", who:"SELF", rec:"P0", status:"todo", due:"", title:"Monetization plan to Alex: post-signup one-time offer, in-app upsells and credits, annual upgrade, onboarding, activation", detail:"Alex 30 Oct: monetization push until New Year. Order: agreed numbers, onboarding, then drastic A/B tests with fast KPIs. Every upsell test tracks whether buyers retain longer (Mladen assumes upsells raise churn)."},
 {id:"higgsdecon1031", share:"alex", added:"2026-10-31", who:"SELF", rec:"P0", status:"todo", due:"", title:"Deconstruct Higgsfield's monetization model (upsells, credits, special offers, banners)", detail:"Input to the monetization plan. Find GetHookd's equivalent of usage (info packs, credits, brand reports, data)."},
@@ -2009,7 +2009,7 @@ renderDay();
 .chk,.dbox,.grab,.tctl select,.pinbtn,#daysel{pointer-events:none} #addtask,#reset,.newform,.t-edit,#saved{display:none!important} .ditem{cursor:default}
 </style>
 <script>
-const GEN=1793489969336;
+const GEN=1793490273070;
 function livePaint(ms){const el=document.getElementById('live'),tx=document.getElementById('livetxt');if(!el)return;const age=(Date.now()-ms)/60000;el.className='';
  if(age<120){el.className='on';tx.textContent='Live, updated '+(age<1?'just now':Math.round(age)+' min ago');}
  else if(age<1440){el.className='stale';tx.textContent='Last update '+Math.round(age/60)+' h ago';}
