@@ -37,6 +37,8 @@
   .pinbtn{font-size:11px;font-weight:700;padding:3px 9px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;margin-right:6px;}
   .pinbtn:hover{border-color:#c3cad6;}
   .pinbtn.on{background:#f3c44c;border-color:#e2ad2a;color:#2a2a2a;}
+  .topbtn{font-size:11px;font-weight:700;padding:3px 9px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;margin-right:6px;}
+  .topbtn:hover{border-color:#c3cad6;color:#2a2a2a;}
   .thead{display:flex;gap:10px;align-items:center;padding:10px 13px;}
   .grab{flex-shrink:0;width:28px;align-self:stretch;display:flex;align-items:center;justify-content:center;cursor:grab;color:#c3cad6;margin:-10px 0 -10px -13px;padding:10px 0;border-right:1px solid #f0f2f5;background:#fbfcfe;touch-action:none;user-select:none;-webkit-user-select:none;}
   .grab:hover{color:var(--ink);background:#eef2f8;}
@@ -1901,6 +1903,8 @@ function toggleDone(id,done){
   apply();
 }
 
+function moveToTop(id){ const i=order.indexOf(id); if(i<0)return; order.splice(i,1); order.unshift(id); save(); render(); }
+
 let drag=null;
 function startDrag(e,id,el){ e.preventDefault(); const r=el.getBoundingClientRect(); const ghost=el.cloneNode(true); ghost.classList.add('ghost'); ghost.style.width=r.width+'px'; ghost.style.left=r.left+'px'; ghost.style.top=(e.clientY-24)+'px'; document.body.appendChild(ghost); el.classList.add('dragging'); document.body.classList.add('dragging-now'); const line=document.createElement('div'); line.className='dropline'; drag={id,el,ghost,line,target:null}; window.addEventListener('pointermove',onDrag); window.addEventListener('pointerup',endDrag,{once:true}); }
 function onDrag(e){ if(!drag)return; drag.ghost.style.top=(e.clientY-24)+'px'; const m=80; if(e.clientY<m)window.scrollBy(0,-16); else if(innerHeight-e.clientY<m)window.scrollBy(0,16); const rows=[...document.querySelectorAll('#list .task:not(.dragging):not(.pinned)')]; const grps=[...document.querySelectorAll('#list .grp')]; grps.forEach(g=>g.classList.remove('dropok')); drag.line.remove(); drag.target=null; if(!grps.length)return; if(document.querySelector('#list .pgrp') && e.clientY < grps[0].getBoundingClientRect().top-6) return; let band=grps[0].dataset.band; for(const g of grps){ if(g.getBoundingClientRect().top-6<=e.clientY) band=g.dataset.band; } const bandRows=rows.filter(r=>r.dataset.band===band); let beforeRow=null; for(const row of bandRows){ const rr=row.getBoundingClientRect(); if(e.clientY<rr.top+rr.height/2){beforeRow=row;break;} } if(beforeRow){ beforeRow.parentNode.insertBefore(drag.line,beforeRow); drag.target={beforeId:beforeRow.dataset.id,band}; } else{ if(bandRows.length){ const last=bandRows[bandRows.length-1]; last.parentNode.insertBefore(drag.line,last.nextSibling); } else{ const g=grps.find(x=>x.dataset.band===band); g.parentNode.insertBefore(drag.line,g.nextSibling); g.classList.add('dropok'); } drag.target={beforeId:null,band}; } }
@@ -1943,6 +1947,7 @@ function buildRow(id,band){
             (byId[id].added?'<span class="addedchip" title="Added '+byId[id].added+'">+ '+byId[id].added.slice(5)+'</span>':'')+
           '</div>'+
           '<div class="tctl">'+
+            ((!isPinned(id)&&p!=='Done')?'<button class="topbtn" title="Move to the top of this priority section">Top</button>':'')+
             '<button class="pinbtn'+(isPinned(id)?' on':'')+'" title="'+(isPinned(id)?'Unpin: back to its place in the list':'Pin to the top of the board')+'">'+(isPinned(id)?'Pinned':'Pin')+'</button>'+
             '<select class="prisel pri-'+p+'">'+PRIS.map(x=>'<option value="'+x+'" '+(x===p?'selected':'')+'>'+(x==='Done'?'Done':x)+'</option>').join('')+'</select>'+
             '<select class="statsel">'+STATUSES.map(function(a){return '<option value="'+a[0]+'" '+(a[0]===s?'selected':'')+'>'+a[1]+'</option>';}).join('')+'</select>'+
@@ -1969,6 +1974,7 @@ function buildRow(id,band){
       el.appendChild(body);
       if(!isPinned(id)) el.querySelector('.grab').addEventListener('pointerdown',e=>startDrag(e,id,el));
       el.querySelector('.pinbtn').addEventListener('click',e=>{e.stopPropagation();togglePin(id);});
+      const topBtn=el.querySelector('.topbtn'); if(topBtn)topBtn.addEventListener('click',e=>{e.stopPropagation();moveToTop(id);});
       el.querySelector('.chk').addEventListener('change',e=>toggleDone(id,e.target.checked));
       el.querySelector('.titlewrap').addEventListener('click',()=>{ if(editing===id)return; if(openSet.has(id))openSet.delete(id);else openSet.add(id);render();});
       el.querySelector('.prisel').addEventListener('change',e=>setField(id,'pri',e.target.value));
@@ -2035,7 +2041,7 @@ renderDay();
 .chk,.dbox,.grab,.tctl select,.pinbtn,#daysel{pointer-events:none} #addtask,#reset,.newform,.t-edit,#saved{display:none!important} .ditem{cursor:default}
 </style>
 <script>
-const GEN=1793626457369;
+const GEN=1793626761486;
 function livePaint(ms){const el=document.getElementById('live'),tx=document.getElementById('livetxt');if(!el)return;const age=(Date.now()-ms)/60000;el.className='';
  if(age<120){el.className='on';tx.textContent='Live, updated '+(age<1?'just now':Math.round(age)+' min ago');}
  else if(age<1440){el.className='stale';tx.textContent='Last update '+Math.round(age/60)+' h ago';}
