@@ -114,6 +114,7 @@
   .ditem{display:flex;gap:8px;align-items:flex-start;cursor:pointer;user-select:none}
   .ditem .dbox{margin-top:6px;accent-color:#4fc79b;cursor:pointer;flex:none}
   .ditem.ck .dtext{text-decoration:line-through;opacity:.4}
+  .ditem .dtext span{display:none}
   .daylog{border:1px solid #2a3a48;border-left:3px solid #d9a441;border-radius:4px;padding:11px 16px;margin:0 0 14px;font-size:12.5px;line-height:1.9}
   .daylog .dltitle{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#d9a441;margin-bottom:3px}
   .dltag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:1px 6px;margin-right:8px;vertical-align:1px;border:1px solid currentColor}
@@ -132,25 +133,19 @@
     </div>
     <span id="live" title="Published from Vitaley's board"><span class="dot"></span><span id="livetxt">Loading</span></span>
   </div>
-<div style="margin:14px 0 10px;padding:13px 18px;border:1px solid #7d3a3a;border-left:3px solid #ff7a63;border-radius:4px;font-size:13.5px;line-height:1.7">
- <span style="font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#ff7a63">The goal — gun to the head</span><br>
- Churn <b>≈27% → ≤21% by Mar 2027 → 15-17% by Sep 2027</b> (period-population) · lifetime <b>3.5 → ≈6 paid months</b> · LTV <b>$140 → ~$240</b>.
- Judged weekly on the five cohort numbers (M1 by plan · save rate · dunning recovery · annual mix · trial→charge), never on the blended rate alone.
-</div>
 <div style="margin:0 0 22px;display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13.5px">
  <div style="border:1px solid #2a3a48;border-left:3px solid #4fc79b;border-radius:4px;padding:14px 18px">
   <div style="font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4fc79b;margin-bottom:8px">Daily — every day, before project work</div>
   <div style="line-height:1.9" id="dailybox">
-   <label class="ditem" data-k="warmemail"><input type="checkbox" class="dbox"><span class="dtext">Daily warm-list email <span style="opacity:.55">(skill: gethookd-daily-email)</span></span></label>
    <label class="ditem" data-k="inbox"><input type="checkbox" class="dbox"><span class="dtext">Inbox replies — assigned GHL queue <span style="opacity:.55">(skill: gethookd-inbox-drafter)</span></span></label>
    <label class="ditem" data-k="postmaster"><input type="checkbox" class="dbox"><span class="dtext">Postmaster + Inbox Bro check <span style="opacity:.55">(spam &lt;0.1% green; 0.3% = full STOP)</span></span></label>
-   <label class="ditem" data-k="pilotoutreach"><input type="checkbox" class="dbox"><span class="dtext">Pilot outreach check: replies, bookings, Crisp list <span style="opacity:.55">(say &quot;update the pilot tracker&quot;; Gmail label &quot;Pilot Crisp&quot; = who to message; rotate when batch quiet 3+ days: python3 scripts/pilot_next_batch.py)</span></span></label>
    <label class="ditem" data-k="instantly"><input type="checkbox" class="dbox"><span class="dtext">Instantly morning scoreboard <span style="opacity:.55">(python3 scripts/instantly-outreach/status.py — kill: &gt;3% bounce warn, &gt;5% STOP; drift = webhook broken)</span></span></label>
   </div>
  </div>
  <div style="border:1px solid #2a3a48;border-left:3px solid #7d93ff;border-radius:4px;padding:14px 18px">
   <div style="font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7d93ff;margin-bottom:8px">Weekly</div>
   <div style="line-height:1.9" id="weeklybox">
+   <label class="ditem" data-k="weeklyemails"><input type="checkbox" class="dbox"><span class="dtext">Weekly emails: write all three on Monday <span style="opacity:.55">(skill: gethookd-daily-email)</span></span></label>
    <label class="ditem" data-k="churnkey"><input type="checkbox" class="dbox"><span class="dtext">Churnkey retention report <span style="opacity:.55">(skill: gethookd-churnkey-retention)</span></span></label>
    <label class="ditem" data-k="devtechissues"><input type="checkbox" class="dbox"><span class="dtext">Tech issues &rarr; dev team <span style="opacity:.55">(Churnkey cancel-flow free-text, REAL-classified only &mdash; one message to Desi + Mladen; answers Mladen's "are users actually hitting these bugs")</span></span></label>
    <label class="ditem" data-k="techdigest"><input type="checkbox" class="dbox"><span class="dtext">Technical-response digest → Alex <span style="opacity:.55">(committed 08-28; incl. dunning vs 24.9% baseline)</span></span></label>
@@ -166,8 +161,6 @@
   <label class="ditem" data-k="kpi_dunning"><input type="checkbox" class="dbox"><span class="dtext">Dunning recovery emails <span style="opacity:.55">(per-email open/click at equal maturity, NOT total recovery &middot; 0/1/3/7/10 cadence vs the 09-04 to 09-14 baseline)</span></span></label>
   <label class="ditem" data-k="kpi_daily"><input type="checkbox" class="dbox"><span class="dtext">Daily warm-list email rollup <span style="opacity:.55">(which subjects + copy styles won the month &middot; skill: gethookd-email analyze)</span></span></label>
   <label class="ditem" data-k="kpi_instantly"><input type="checkbox" class="dbox"><span class="dtext">Instantly cold revival month-end <span style="opacity:.55">(sent, reply rate, bounce, REVIVED trial + paid &middot; never blend the two bounce rates)</span></span></label>
-  <label class="ditem" data-k="kpi_deliver"><input type="checkbox" class="dbox"><span class="dtext">Deliverability month view <span style="opacity:.55">(Postmaster spam-rate trend, domain reputation, one-click unsubscribe compliance on both domains)</span></span></label>
-  <label class="ditem" data-k="kpi_retdash"><input type="checkbox" class="dbox"><span class="dtext">Retention dashboard regenerate <span style="opacity:.55">(scripts/stripe_retention_pull.py &middot; monthly paid churn, M1 second-payment, annual mix, Agency-cliff count)</span></span></label>
  </div>
 </div>
 
@@ -225,6 +218,7 @@ const TASKS = [
 {id:"existingedu1109", share:"alex", added:"2026-11-09", who:"SELF", rec:"P1", status:"todo", due:"", title:"Get new-feature education to the 6,000 existing users, not only new trials", detail:"Alex 9 Nov (Fathom 26:57 to 29:30): existing users never see new onboarding. Post each feature video in the communities Alex runs (Dark Lords, the WhatsApp group) and push it by email. Pairs with the Academy task."},
 {id:"activation1109", share:"alex", added:"2026-11-09", who:"SELF + MLADEN", rec:"P2", status:"todo", due:"", title:"Push the new onboarding sequence with Shops as the activation step", detail:"Shops is already proposed as the activation metric (Vitaley 9 Nov); what is left is getting the onboarding change shipped. 9 Nov call (Fathom 21:02 to 21:59): Alex says the new onboarding activates Shops. Vitaley: measuring a Shops or Similar-shops use as the activation point would be the holy grail. Also check with Mladen whether the new format filters are in the MCP yet (Alex was unsure, 11:17)."},
 {id:"starterlockq1109", share:"alex", added:"2026-11-09", who:"SELF", rec:"P2", status:"todo", due:"in the Mladen batch", title:"Answer Mladen's questions on the Starter feature lock test", detail:"9 Nov call (Fathom 46:52): Mladen likes the lock (Brand Spy or Shops once, then upgrade) and has questions. His open one in writing: does the lock also change the plans page (CoS pick: no)."},
+{id:"instantlyrevive1110", share:"self", added:"2026-11-10", who:"SELF", rec:"P1", status:"todo", due:"after the dashboard and Wednesday meeting", title:"Revive the Instantly cold-email machine and start it back up", detail:"Vitaley 10 Nov: we do need to revive this. Known state from the 7 Oct status page and the queue file: campaign paused since 28 Sep, 48 replies drafted and never sent, the plan's lead cap blocks the next batch, bounce was 5.14% against a 5.0% stop line. First step: a fresh status read, then clear the reply queue, then decide the lead cap."},
 {id:"dashfinal1110", share:"alex", added:"2026-11-10", who:"SELF", rec:"P0", status:"todo", due:"Tue 10 Nov, end of day (Vitaley)", title:"Finish the retention dashboard and get it live today", detail:"New Engineer 1: audit fixes, the 4-across grid layout, every card on New York time, one final release, independent check, then Codex. Republish to the shared link on Vitaley's word after Codex."},
 {id:"onbmockup1110", share:"alex", added:"2026-11-10", who:"SELF", rec:"P0", status:"todo", due:"Tue 10 Nov, asap (Mladen asked 11:25)", title:"Send Mladen the final onboarding mockup (Shops as activation)", detail:"Engineer 2 is building it from prototype v3 plus the 9 Nov decisions: Pick 3 stores to spy on, then save 3 ads, skip link for non-Shopify, phone step removed, 1 on 1 call calendar. Vitaley sends it to Mladen."},
 {id:"journeydoc1110", share:"alex", added:"2026-11-10", who:"SELF", rec:"P0", status:"todo", due:"Tue 10 Nov (meeting Wed 11 Nov)", title:"Rework the Wednesday meeting prep to the full customer journey", detail:"Lucia's brief: acquisition, onboarding, engagement, retention, cancellation; priorities, action items and owners. Same file, reworked in place: data/research/gethookd-churn-meeting-2026-11-11/topics.html."},
@@ -2064,7 +2058,7 @@ renderDay();
 .chk,.dbox,.grab,.tctl select,.pinbtn,#daysel{pointer-events:none} #addtask,#reset,.newform,.t-edit,#saved{display:none!important} .ditem{cursor:default}
 </style>
 <script>
-const GEN=1794332693498;
+const GEN=1794332996961;
 function livePaint(ms){const el=document.getElementById('live'),tx=document.getElementById('livetxt');if(!el)return;const age=(Date.now()-ms)/60000;el.className='';
  if(age<120){el.className='on';tx.textContent='Live, updated '+(age<1?'just now':Math.round(age)+' min ago');}
  else if(age<1440){el.className='stale';tx.textContent='Last update '+Math.round(age/60)+' h ago';}
