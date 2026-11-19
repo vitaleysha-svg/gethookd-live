@@ -1879,6 +1879,8 @@ const byId=Object.fromEntries(TASKS.concat(custom).map(t=>[t.id,t]));
 let ovr={}; try{ovr=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){ovr={}}
 Object.keys(ovr).forEach(k=>{ if(!byId[k]) delete ovr[k]; });
 TASKS.forEach(t=>{ if(t.status==='done'&&ovr[t.id]){delete ovr[t.id].pri;delete ovr[t.id].status;} });
+/* one-time 19 Nov 2026: Vitaley moved his own tag-cleanup card to P1 (CoS cannot edit browser-only cards from the file). */
+(function(){const MK='gethookd_board_mig_20261119_tags';try{if(localStorage.getItem(MK))return;}catch(e){return;}const id='custom_1793825792935_790';const c=custom.find(x=>x.id===id);if(!c){try{localStorage.setItem(MK,'1');}catch(e){}return;}ovr[id]=ovr[id]||{};ovr[id].pri='P1';c.due='2026-11-24';c.title='Tag cleanup: Codex writes the keep/remove plan (audit done 17 Nov), then remove in batches of 5 with your yes';c.detail='<b>19 Nov:</b> P1, due Tue 24 Nov (Vitaley). Audit done 17 Nov (54 workflows, 80 tags, 12 conflicts). Plan prompt data/handoffs/codex-tag-cleanup-plan-2026-11-17.md written 17 Nov but no plan file yet (verified). Run it after the Codex action-plan fixes 8, 9, 4, 10. Nothing removed without a yes per batch of 5.'+(c.detail?'<br><br>'+c.detail:'');try{localStorage.setItem(KEY,JSON.stringify(ovr));localStorage.setItem(CKEY,JSON.stringify(custom));localStorage.setItem(MK,'1');}catch(e){}})();
 let order=[]; try{order=JSON.parse(localStorage.getItem(OKEY)||'null')||[]}catch(e){order=[]}
 const PKEY='gethookd_board_pins_v1';
 let pins=[]; try{pins=JSON.parse(localStorage.getItem(PKEY)||'[]')||[]; if(!Array.isArray(pins))pins=[];}catch(e){pins=[]}
@@ -2114,7 +2116,7 @@ renderDay();
 .chk,.dbox,.grab,.tctl select,.pinbtn,#daysel{pointer-events:none} #addtask,#reset,.newform,.t-edit,#saved{display:none!important} .ditem{cursor:default}
 </style>
 <script>
-const GEN=1795098448171;
+const GEN=1795098752409;
 function livePaint(ms){const el=document.getElementById('live'),tx=document.getElementById('livetxt');if(!el)return;const age=(Date.now()-ms)/60000;el.className='';
  if(age<120){el.className='on';tx.textContent='Live, updated '+(age<1?'just now':Math.round(age)+' min ago');}
  else if(age<1440){el.className='stale';tx.textContent='Last update '+Math.round(age/60)+' h ago';}
